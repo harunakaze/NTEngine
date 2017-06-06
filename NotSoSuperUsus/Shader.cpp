@@ -19,10 +19,19 @@ int Shaders::Init(char * fileVertexShader, char * fileFragmentShader)
 
 	//finding location of uniforms / attributes
 	positionAttribute = glGetAttribLocation(program, "a_posL");
+	uvAttribute = glGetAttribLocation(program, "a_uv");
 	colorAttribute = glGetAttribLocation(program, "a_color");
+
+	texture = glGetUniformLocation(program, "u_texture");
+
+	transformationMatrix = glGetUniformLocation(program, "transformation");
 
 
 	return 0;
+}
+
+Shaders::Shaders(char * fileVertexShader, char * fileFragmentShader) {
+	Init(fileVertexShader, fileFragmentShader);
 }
 
 Shaders::~Shaders()

@@ -10,8 +10,14 @@ public:
 	char fileVS[260];
 	char fileFS[260];
 	GLint positionAttribute;
+	GLint uvAttribute;
 	GLint colorAttribute;
+	GLint texture;
+
+	GLuint transformationMatrix;
 
 	int Init(char * fileVertexShader, char * fileFragmentShader);
+	
+	Shaders(char * fileVertexShader, char * fileFragmentShader);
 	~Shaders();
 };

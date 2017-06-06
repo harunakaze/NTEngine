@@ -8,11 +8,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+#include "Global.h"
 #include "Shaders.h"
 #include "Vertex.h"
+#include "SceneManager.h"
+#include "ResourceManager.h"
 
 GLuint vboId;
-Shaders myShaders;
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -38,10 +40,13 @@ void Init()
 	glEnable(GL_DEPTH_TEST);
 
 	//Init RM & SM
+	ResourceManager::getInstance()->Init();
+	SceneManager::getInstance()->Init();
 }
 
 void Update(double deltaTime) {
-	// Do update
+	// Scene manager update
+	SceneManager::getInstance()->Update(deltaTime);
 }
 
 void Draw()
@@ -49,8 +54,14 @@ void Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Scene manager draw
+	SceneManager::getInstance()->Draw();
 }
 
+void CleanUp()
+{
+	SceneManager::destroyInstance();
+	ResourceManager::destroyInstance();
+}
 
 int main(void)
 {
@@ -73,7 +84,7 @@ int main(void)
 	GLFWwindow* window;
 
 	//Create a window and create its OpenGL context
-	window = glfwCreateWindow(640, 480, "Test Window", NULL, NULL);
+	window = glfwCreateWindow(Global::screenWidth, Global::screenHeight, "Not So Super Usus", NULL, NULL);
 
 	//If the window couldn't be created
 	if (!window)
@@ -108,7 +119,7 @@ int main(void)
 	do
 	{
 		double curTime = glfwGetTime();
-		double deltaTime = (curTime - lastTime) / 1000.0;
+		double deltaTime = (curTime - lastTime);
 		lastTime = curTime;
 
 		//Update Loop
@@ -126,13 +137,16 @@ int main(void)
 	} //Check if the ESC key had been pressed or if the window had been closed
 	while (!glfwWindowShouldClose(window));
 
+	//Release Resources
+	CleanUp();
+
 	//Close OpenGL window and terminate GLFW
 	glfwDestroyWindow(window);
 	//Finalize and clean up GLFW
 	glfwTerminate();
 
-	exit(EXIT_SUCCESS);
-
 	printf("Press any key...\n");
 	_getch();
+
+	exit(EXIT_SUCCESS);
 }
