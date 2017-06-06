@@ -7,6 +7,7 @@
 //Include the standard C++ headers
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include "Shaders.h"
 #include "Vertex.h"
 
@@ -28,61 +29,26 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 }
 
 
-int Init()
+void Init()
 {
-	//triangle data (heap)
-	Vertex verticesData[3];
+	//Set a background color
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	
+	//Depth test
+	glEnable(GL_DEPTH_TEST);
 
-	verticesData[0].pos.x = 0.0f;  verticesData[0].pos.y = 0.5f;  verticesData[0].pos.z = 0.0f;
-	verticesData[1].pos.x = -0.5f;  verticesData[1].pos.y = -0.5f;  verticesData[1].pos.z = 0.0f;
-	verticesData[2].pos.x = 0.5f;   verticesData[2].pos.y = -0.5f;  verticesData[2].pos.z = 0.0f;
+	//Init RM & SM
+}
 
-	verticesData[0].color.x = 1.0f;  verticesData[0].color.y = 0.0f;  verticesData[0].color.z = 0.0f;
-	verticesData[1].color.x = 0.0f;  verticesData[1].color.y = 1.0f;  verticesData[1].color.z = 0.0f;
-	verticesData[2].color.x = 0.0f;  verticesData[2].color.y = 0.0f;  verticesData[2].color.z = 1.0f;
-
-
-	//buffer object
-	glGenBuffers(1, &vboId);
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(verticesData), verticesData, GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	printf("SUCKERS : %d", vboId);
-
-
-	//creation of shaders and program 
-	return myShaders.Init("../resources/shader/TriangleShaderVS.vs", "../resources/shader/TriangleShaderFS.fs");
-
+void Update(double deltaTime) {
+	// Do update
 }
 
 void Draw()
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glUseProgram(myShaders.program);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vboId);
-
-
-	if (myShaders.positionAttribute != -1)
-	{
-		glEnableVertexAttribArray(myShaders.positionAttribute);
-		glVertexAttribPointer(myShaders.positionAttribute, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-	}
-
-	if (myShaders.colorAttribute != -1)
-	{
-		glEnableVertexAttribArray(myShaders.colorAttribute);
-		glVertexAttribPointer(myShaders.colorAttribute, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(Vector3));
-	}
-
-
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//eglSwapBuffers(esContext->eglDisplay, esContext->eglSurface);
+	// Scene manager draw
 }
 
 
@@ -133,22 +99,23 @@ int main(void)
 		return -1;
 	}
 
-	//Set a background color
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	//Inital preparation
+	Init();
 
-	int status = Init();
-
-	if (status != 0) {
-		printf("STATUS : %d", status);
-		return 0;
-	}
+	double lastTime = glfwGetTime();
 	
 	//Main Loop
 	do
 	{
-		//Clear color buffer
-		glClear(GL_COLOR_BUFFER_BIT);
+		double curTime = glfwGetTime();
+		double deltaTime = (curTime - lastTime) / 1000.0;
+		lastTime = curTime;
 
+		//Update Loop
+		//TODO: USE FIXED TIME STEP
+		Update(deltaTime);
+
+		//Draw loop
 		Draw();
 
 		//Swap buffers
@@ -165,4 +132,7 @@ int main(void)
 	glfwTerminate();
 
 	exit(EXIT_SUCCESS);
+
+	printf("Press any key...\n");
+	_getch();
 }
