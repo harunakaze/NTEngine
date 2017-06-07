@@ -9,7 +9,7 @@ void ResourceManager::Init()
 	//Load Texture
 	//Grass
 	textures.push_back(new Texture("../resources/textures/bg_menu.bmp")); // 0
-	textures.push_back(new Texture("../resources/textures/ic_su_start.bmp")); // 1
+	textures.push_back(new Texture("../resources/textures/ic_su_start_alpha.bmp")); // 1
 
 	//Load Shaders
 	//Normal

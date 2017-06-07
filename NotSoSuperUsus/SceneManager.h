@@ -1,7 +1,6 @@
 #pragma once
 #include "../Utilities/utilities.h"
 #include "GameObject.h"
-#include "Camera.h"
 #include "ResourceManager.h"
 #include <vector>
 
@@ -12,23 +11,12 @@ public:
 	~SceneManager();
 
 	//Main Function
-	void Init();
-	void Draw();
-	void Update(double deltaTime);
+	virtual void Init();
+	virtual void Draw();
+	virtual void Update(double deltaTime);
+	virtual void Exit();
 
-	//Camera
-	Camera * camera;
-
-	//Singleton stuff
-	static SceneManager * getInstance();
-	static void destroyInstance();
-private:
+protected:
 	//Game Object
 	std::vector<GameObject*> gameObjects;
-
-	//Camera
-	void cameraInit();
-
-	//Singleton Stuff
-	static SceneManager * SMInstance;
 };

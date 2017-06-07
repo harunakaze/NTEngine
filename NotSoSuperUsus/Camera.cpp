@@ -178,3 +178,21 @@ void Camera::rotateRight(float deltaTime)
 	setWorldMatrix();
 	setViewMatrix();
 }
+
+//Singleton stuff
+Camera * Camera::cameraInstance = 0;
+
+Camera * Camera::mainCamera() {
+	if (!cameraInstance) {
+		cameraInstance = new Camera();
+	}
+
+	return cameraInstance;
+}
+
+void Camera::destroyInstance() {
+	if (cameraInstance) {
+		delete cameraInstance;
+		cameraInstance = nullptr;
+	}
+}

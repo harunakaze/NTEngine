@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "SceneManager.h"
+#include "Camera.h"
 #include <stdio.h>
 
 void GameObject::Update(double deltaTime) {
@@ -29,7 +30,7 @@ void GameObject::Draw() {
 	glBindTexture(GL_TEXTURE_2D, texture->idTexture);
 	glUniform1i(shaders->texture, 0);
 
-	MVP = modelMatrix * SceneManager::getInstance()->camera->getViewMatrix() * SceneManager::getInstance()->camera->getProjectionMatrix();
+	MVP = modelMatrix * Camera::mainCamera()->getViewMatrix() * Camera::mainCamera()->getProjectionMatrix();
 
 	if (shaders->transformationMatrix != -1)
 	{

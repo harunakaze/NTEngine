@@ -25,6 +25,10 @@ public:
 	void rotateLeft(float deltaTime);
 	void rotateRight(float deltaTime);
 
+	//Singleton stuff
+	static Camera * mainCamera();
+	static void destroyInstance();
+
 private:
 	Matrix worldMatrix;
 	Matrix viewMatrix;
@@ -35,4 +39,7 @@ private:
 
 	void setWorldMatrix();
 	void setViewMatrix();
+
+	//Singleton stuff
+	static Camera * cameraInstance;
 };

@@ -8,13 +8,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
+
+//Include object header
+#include "Camera.h"
 #include "Global.h"
 #include "Shaders.h"
 #include "Vertex.h"
-#include "SceneManager.h"
+#include "SceneFSM.h"
 #include "ResourceManager.h"
-
-GLuint vboId;
 
 //Define an error callback
 static void error_callback(int error, const char* description)
@@ -36,17 +37,19 @@ void Init()
 	//Set a background color
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	
-	//Depth test
-	glEnable(GL_DEPTH_TEST);
+	//GL Feature
+	//glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_BLEND); 
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//Init RM & SM
 	ResourceManager::getInstance()->Init();
-	SceneManager::getInstance()->Init();
+	SceneFSM::getInstance()->InitFSM();
 }
 
 void Update(double deltaTime) {
 	// Scene manager update
-	SceneManager::getInstance()->Update(deltaTime);
+	SceneFSM::getInstance()->Update(deltaTime);
 }
 
 void Draw()
@@ -54,12 +57,12 @@ void Draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Scene manager draw
-	SceneManager::getInstance()->Draw();
+	SceneFSM::getInstance()->Draw();
 }
 
 void CleanUp()
 {
-	SceneManager::destroyInstance();
+	Camera::destroyInstance();
 	ResourceManager::destroyInstance();
 }
 
