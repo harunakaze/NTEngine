@@ -23,8 +23,11 @@ private:
 	bool exitCurrentState = false;
 	bool enterNextState = true;
 
+	void SetNextScene(SceneManager *targetScene);
+
 	//Available scene
 	MainMenuScene *mainMenuScene;
+	GamePlayScene *gamePlayScene;
 
 	//Singleton stuff
 	static SceneFSM * objectInstance;

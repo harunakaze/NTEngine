@@ -84,6 +84,7 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameplayScene.cpp" />
     <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="NotSoSuper.cpp" />
@@ -96,6 +97,7 @@
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameplayScene.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="Model.h" />

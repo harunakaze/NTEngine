@@ -12,6 +12,8 @@ public:
 
 	//Main Function
 	virtual void Init();
+
+	virtual void Enter();
 	virtual void Draw();
 	virtual void Update(double deltaTime);
 	virtual void Exit();

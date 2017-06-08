@@ -61,6 +61,9 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+	for (auto &model : models) {
+		delete model;
+	}
 	for (auto &texture : textures) {
 		delete texture;
 	}

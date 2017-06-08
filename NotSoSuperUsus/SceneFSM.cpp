@@ -2,9 +2,29 @@
 
 void SceneFSM::InitFSM() {
 	mainMenuScene = new MainMenuScene();
+	gamePlayScene = new GamePlayScene();
 
+	mainMenuScene->Init();
+	gamePlayScene->Init();
 
 	currentScene = mainMenuScene;
+}
+
+void SceneFSM::SwitchScene(const char * sceneName) {
+	if (sceneName == "MainMenuScene") {
+		SetNextScene(mainMenuScene);
+	}
+	else if (sceneName == "GameplayScene") {
+		SetNextScene(gamePlayScene);
+	}
+	else {
+		printf("ERROR! NO SUCH SCENE! : %s", sceneName);
+	}
+}
+
+void SceneFSM::SetNextScene(SceneManager *targetScene) {
+	nextScene = targetScene;
+	exitCurrentState = true;
 }
 
 void SceneFSM::Update(double deltaTime) {
@@ -18,7 +38,7 @@ void SceneFSM::Update(double deltaTime) {
 	}
 
 	if (enterNextState) {
-		currentScene->Init();
+		currentScene->Enter();
 
 		enterNextState = false;
 	}
@@ -28,12 +48,6 @@ void SceneFSM::Update(double deltaTime) {
 
 void SceneFSM::Draw() {
 	currentScene->Draw();
-}
-
-void SceneFSM::SwitchScene(const char * sceneName) {
-	if (sceneName == "MainMenuScene") {
-		nextScene = mainMenuScene;
-	}
 }
 
 //Singleton stuff
@@ -50,7 +64,7 @@ SceneFSM * SceneFSM::getInstance() {
 void SceneFSM::destroyInstance() {
 	if (objectInstance) {
 		delete objectInstance;
-		objectInstance = nullptr;
+		objectInstance = NULL;
 	}
 }
 
@@ -59,5 +73,6 @@ SceneFSM::SceneFSM() {
 }
 
 SceneFSM::~SceneFSM() {
-
+	delete mainMenuScene;
+	delete gamePlayScene;
 }

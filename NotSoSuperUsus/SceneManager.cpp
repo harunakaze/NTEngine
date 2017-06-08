@@ -2,12 +2,17 @@
 
 //Init
 void SceneManager::Init() {
-	printf("Base scene manager init called, might not want this.");
+	printf("Base scene manager init called, might not want this.\n");
+}
+
+//Enter
+void SceneManager::Enter() {
+	//printf("Base scene manager enter called, might not want this.\n");
 }
 
 //Exit
 void SceneManager::Exit() {
-	printf("Base scene manager exit called, might not want this.");
+	//printf("Base scene manager exit called, might not want this.\n");
 }
 
 //Update

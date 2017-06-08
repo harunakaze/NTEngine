@@ -17,6 +17,12 @@
 #include "SceneFSM.h"
 #include "ResourceManager.h"
 
+//Leak detector
+#define _CRTDBG_MAP_ALLOC  
+#include <stdlib.h>  
+#include <crtdbg.h> 
+//#include <vld.h>
+
 //Define an error callback
 static void error_callback(int error, const char* description)
 {
@@ -29,6 +35,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
+
+	if (key == GLFW_KEY_ENTER && action == GLFW_PRESS) {
+		SceneFSM::getInstance()->SwitchScene("GameplayScene");
+	}
 }
 
 
@@ -62,6 +72,7 @@ void Draw()
 
 void CleanUp()
 {
+	SceneFSM::destroyInstance();
 	Camera::destroyInstance();
 	ResourceManager::destroyInstance();
 }
@@ -147,6 +158,9 @@ int main(void)
 	glfwDestroyWindow(window);
 	//Finalize and clean up GLFW
 	glfwTerminate();
+
+	//Memory leak
+	_CrtDumpMemoryLeaks();
 
 	printf("Press any key...\n");
 	_getch();
